@@ -1,10 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Gameboard } from "./Gameboard";
+import { Square } from './Square';
+
 
 function App() {
   return (
-    <div className="App">
-      
+    <div className="app">
+      <Gameboard/> 
     </div>
   );
 }
