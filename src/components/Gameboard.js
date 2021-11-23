@@ -9,7 +9,8 @@ const lines=[
 ]
 
 export const Gameboard = () => {
-    const [squares,setSquares]=useState(squareArray)
+    const [squares,setSquares]=useState(squareArray);
+    const [winner,setWinner]=useState(null);
     
     useEffect(()=>{
         const filledSquares=squares.filter((squareValue)=>{
@@ -26,25 +27,47 @@ export const Gameboard = () => {
         const computerWon=checkLines('o','o','o');
         if(computerWon.length>0){
             alert("computer win");
-            return;
         }
         if(playerWon.length>0){
             alert("win");
-            return;
         }
         const computerMark=index=>{
             let copySquares=squares.slice();  
-            copySquares[index]="o";
+            copySquares[index]='o';
             setSquares(copySquares)
         }
 
         if(isComputerTurn){
+
+            const computerWinningChance=checkLines('o','o',null);
+            if(computerWinningChance.length>0){
+                console.log("fdfdfdfdfdf")
+                const winningIndex=computerWinningChance[0].filter(index=>squares[index]===null)[0];
+                computerMark(winningIndex);
+                return;
+            }
+
+            const blockPlayer=checkLines('x','x',null);
+            if(blockPlayer.length>0){
+                const blockIndex=blockPlayer[0].filter(index=>squares[index]===null)[0];
+                computerMark(blockIndex);
+                return;
+            }
+            
+            const closeToWin=checkLines('o',null,null);
+            console.log(closeToWin)
+            if(closeToWin.length>0){
+                const nextMoveIndex=closeToWin[0].filter(index=>squares[index]===null)[0];
+                computerMark(nextMoveIndex);
+                return
+            }
+
             const EmptyIndex=squares.map((square,index)=>{
                  return square===null?index:null
             }).filter(val=>val!==null);
             if(EmptyIndex.length!==0){
-            const randomIndex=EmptyIndex[Math.ceil(Math.random()*EmptyIndex.length)]
-             computerMark(randomIndex);
+                const randomIndex=EmptyIndex[Math.ceil(Math.random()*EmptyIndex.length)]
+                computerMark(randomIndex);
             }
         }
     },[squares])
@@ -53,11 +76,11 @@ export const Gameboard = () => {
         const filledSquares=squares.filter((squareValue)=>{
             return (squareValue!==null)
         })
-        const ismyTurn=filledSquares.length %2 ===0;
+        const ismyTurn=filledSquares.length %2 === 0;
         if(ismyTurn){
             let copySquares=squares.slice();  //we can also use slice to clone an array
-            copySquares[index]="x";
-            setSquares(copySquares)
+            copySquares[index]='x';
+            setSquares(copySquares);
         }
     }
 
