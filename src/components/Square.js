@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const Square = () => {
+const Square = (props) => {
     return (
-        <div className="square">
-          
+        <div className="square" onClick={()=>props.handle(props.index)}>
+          {props.x ?'X' : props.o ?"O" : "" }
         </div>
     )
 }
+
+export default Square;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Gameboard } from "./Gameboard";
-import { Square } from './Square';
+
 
 
 function App() {
