@@ -16,14 +16,22 @@ export const Gameboard = () => {
             return (squareValue!==null)
         })
         const isComputerTurn=filledSquares.length %2 ===1;
-        // const checkLines=(a,b,c)=>{
-        //     return lines.filter(threeSquares=>{
-        //         const values=threeSquares.map(index=>squares[index]);
-        //         // return [a,b,c].equals(values.sort());
-        //     })
-        // }
-        //const playerWon=checkLines('x','x','x');
-        //if(playerWon){alert("player won")};
+        const checkLines=(a,b,c)=>{
+            return lines.filter(threeSquares=>{
+                const values=threeSquares.map(index=>squares[index]);
+               return JSON.stringify(values.sort())===JSON.stringify([a,b,c].sort());
+            })
+        }
+        const playerWon=checkLines('x','x','x');
+        const computerWon=checkLines('o','o','o');
+        if(computerWon.length>0){
+            alert("computer win");
+            return;
+        }
+        if(playerWon.length>0){
+            alert("win");
+            return;
+        }
         const computerMark=index=>{
             let copySquares=squares.slice();  
             copySquares[index]="o";
@@ -34,7 +42,6 @@ export const Gameboard = () => {
             const EmptyIndex=squares.map((square,index)=>{
                  return square===null?index:null
             }).filter(val=>val!==null);
-            console.log(EmptyIndex)
             if(EmptyIndex.length!==0){
             const randomIndex=EmptyIndex[Math.ceil(Math.random()*EmptyIndex.length)]
              computerMark(randomIndex);
