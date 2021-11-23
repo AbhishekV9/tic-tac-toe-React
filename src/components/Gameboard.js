@@ -26,10 +26,10 @@ export const Gameboard = () => {
         const playerWon=checkLines('x','x','x');
         const computerWon=checkLines('o','o','o');
         if(computerWon.length>0){
-            alert("computer win");
+            setWinner("computer");
         }
         if(playerWon.length>0){
-            alert("win");
+            setWinner("you");
         }
         const computerMark=index=>{
             let copySquares=squares.slice();  
