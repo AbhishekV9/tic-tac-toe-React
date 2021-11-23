@@ -10,7 +10,8 @@ const lines=[
 
 export const Gameboard = () => {
     const [squares,setSquares]=useState(squareArray);
-    const [winner,setWinner]=useState(null);
+    const [winner,setWinner]=useState("");
+    const [showResult,setShowResult]=useState(false);
     
     useEffect(()=>{
         const filledSquares=squares.filter((squareValue)=>{
@@ -27,9 +28,14 @@ export const Gameboard = () => {
         const computerWon=checkLines('o','o','o');
         if(computerWon.length>0){
             setWinner("computer");
+            setShowResult(true);
+            return;
         }
         if(playerWon.length>0){
             setWinner("you");
+            setShowResult(true);
+            return;
+
         }
         const computerMark=index=>{
             let copySquares=squares.slice();  
@@ -72,21 +78,31 @@ export const Gameboard = () => {
         }
     },[squares])
 
+    function resetAll(){
+        setSquares(squareArray);
+        setWinner("");
+        setShowResult(false);
+    }
+
     function handleClick(index){
+        if(squares[index]!=null){
+            return;
+        }
         const filledSquares=squares.filter((squareValue)=>{
             return (squareValue!==null)
         })
         const ismyTurn=filledSquares.length %2 === 0;
-        if(ismyTurn){
+        if(ismyTurn && !showResult){
             let copySquares=squares.slice();  //we can also use slice to clone an array
             copySquares[index]='x';
             setSquares(copySquares);
         }
     }
 
+    console.log(winner,showResult)
     
     return (
-        
+        <>
         <div className="game-board">
             {squares.map((squareValue,index)=> 
                 <Square 
@@ -98,5 +114,10 @@ export const Gameboard = () => {
                 />
             )}
         </div>
+        <div >
+            {showResult ? winner==='you' ? <div  className="result" ><p>You Won</p></div>:<div  className="result"><p>You Lost</p></div>:null}
+        </div>
+        <button className="reset" onClick={resetAll}>RESET</button>
+    </>
     )
 }
