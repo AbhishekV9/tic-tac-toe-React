@@ -3,7 +3,7 @@ import React from 'react'
 const Square = (props) => {
     return (
         <div className="square" onClick={()=>props.handle(props.index)}>
-          {props.x ?'X' : props.o ?"O" : "" }
+          {props.x ?'x' : props.o ?"o" : "" }
         </div>
     )
 }
