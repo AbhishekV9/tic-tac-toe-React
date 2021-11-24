@@ -12,11 +12,13 @@ export const Gameboard = () => {
     const [squares,setSquares]=useState(squareArray);
     const [winner,setWinner]=useState("");
     const [showResult,setShowResult]=useState(false);
+    const [draw,setDraw]=useState(false);
     
     useEffect(()=>{
         const filledSquares=squares.filter((squareValue)=>{
             return (squareValue!==null)
         })
+
         const isComputerTurn=filledSquares.length %2 ===1;
         const checkLines=(a,b,c)=>{
             return lines.filter(threeSquares=>{
@@ -74,6 +76,9 @@ export const Gameboard = () => {
             if(EmptyIndex.length!==0){
                 const randomIndex=EmptyIndex[Math.ceil(Math.random()*EmptyIndex.length)]
                 computerMark(randomIndex);
+            }else if(EmptyIndex.length===0){
+                setDraw(true);
+                setShowResult(true);
             }
         }
     },[squares])
@@ -115,7 +120,7 @@ export const Gameboard = () => {
             )}
         </div>
         <div >
-            {showResult ? winner==='you' ? <div  className="result" ><p>You Won</p></div>:<div  className="result"><p>You Lost</p></div>:null}
+            {showResult ? draw ?<div className="result"><p>Draw</p></div> : winner==='you' ? <div  className="result" ><p>You Won</p></div>:<div  className="result"><p>You Lost</p></div>: null}
         </div>
         <button className="reset" onClick={resetAll}>RESET</button>
     </>
