@@ -87,6 +87,7 @@ export const Gameboard = () => {
         setSquares(squareArray);
         setWinner("");
         setShowResult(false);
+        setDraw(false);
     }
 
     function handleClick(index){
